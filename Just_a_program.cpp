@@ -406,8 +406,8 @@ big_integer_number operator/(big_integer_number A,big_integer_number B)
 big_integer_number operator%(big_integer_number A,big_integer_number B)
 {
   big_integer_number DIV,MOD;
-  CAT=A/B;
-  B=B*CAT;
+  DIV=A/B;
+  B=B*DIV;
   MOD=A-B;
   return MOD;
 }
