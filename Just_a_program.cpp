@@ -32,7 +32,8 @@ public:
   ~big_rational_number(){}
 };
 int main()
-{
+{ 
+  //here you read the integers numbers and do simple math with them
   //big_integer_number A,B,C;
   //std::cin>>A;
   //std::cin>>B;
@@ -44,6 +45,7 @@ int main()
   //C=GCD(A,B);
   //std::cout<<C;
 
+  //here you read the rational numbers and do simple math with them
   //big_rational_number X,Y,Z;
   //std::cin>>X;
   //std::cin>>Y;
@@ -175,7 +177,7 @@ big_integer_number operator+(big_integer_number A,big_integer_number B)
   if(C.pozitiv==0)
   {
       int ok1=0,ok2=0;
-      nod *p,*q,*r,*alamare,*alamic;
+      nod *p,*q,*r,*theBIGone,*THEsmallONE;
       p=A.start;
       q=B.start;
       while(p)
@@ -183,11 +185,11 @@ big_integer_number operator+(big_integer_number A,big_integer_number B)
       while(q)
       {ok2++;q=q->next;}
       if(ok1>ok2)
-        {alamare=A.stop;alamic=B.stop;
+        {theBIGone=A.stop;THEsmallONE=B.stop;
         if(A.pozitiv==1)
       verificare=1;}
       if(ok1<ok2)
-      {alamare=B.stop;alamic=A.stop;  if(B.pozitiv==1)
+      {theBIGone=B.stop;THEsmallONE=A.stop;  if(B.pozitiv==1)
       verificare=1;
       }
       if(ok1==ok2)
@@ -197,20 +199,20 @@ big_integer_number operator+(big_integer_number A,big_integer_number B)
         while(p->val==q->val&&p->next!=NULL)
         {p=p->next;q=q->next;}
         if(p->val>q->val)
-        {alamare=A.stop;alamic=B.stop;
+        {theBIGone=A.stop;THEsmallONE=B.stop;
           if(A.pozitiv==1)
         verificare=1;}
         else
-        {alamare=B.stop;alamic=A.stop;
+        {theBIGone=B.stop;THEsmallONE=A.stop;
           if(B.pozitiv==1)
         verificare=1;}
       }
       int k=0;
 
-      while(alamic)
+      while(THEsmallONE)
       {
 
-        int x=alamare->val-alamic->val+k;
+        int x=theBIGone->val-THEsmallONE->val+k;
         k=0;
         if(x<0)
         {x=x+10; k=-1;}
@@ -230,14 +232,14 @@ big_integer_number operator+(big_integer_number A,big_integer_number B)
           r->below=NULL;
           C.start=r;
         }
-        alamare=alamare->below;
-        alamic=alamic->below;
+        theBIGone=theBIGone->below;
+        THEsmallONE=THEsmallONE->below;
       }
 
-      while(alamare)
+      while(theBIGone)
       {
         r=new nod;
-        int x=alamare->val+k;
+        int x=theBIGone->val+k;
         if(x<0)
         {x+=10;k=-1;}
         else k=0;
@@ -247,7 +249,7 @@ big_integer_number operator+(big_integer_number A,big_integer_number B)
         r->next=C.start;
         r->below=NULL;
         C.start=r;
-        alamare=alamare->below;
+        theBIGone=theBIGone->below;
       }
 
   }
@@ -308,19 +310,19 @@ big_integer_number operator*(big_integer_number A,big_integer_number B)
   n=strlen(sira);
   m=strlen(sirb);
   struct bsa{
-    unsigned int superior;
-    unsigned int inferior;
+    unsigned int up;
+    unsigned int down;
   }M[m][n];
   for(i=0;i<m;i++)
     for(j=0;j<n;j++)
     {
       unsigned x=(unsigned)(sira[j]-'0')*(unsigned)(sirb[i]-'0');
-      M[i][j].superior=x/10;
-      M[i][j].inferior=x%10;
+      M[i][j].up=x/10;
+      M[i][j].down=x%10;
     }
 
   p=new nod;
-  p->val=M[m-1][n-1].inferior;
+  p->val=M[m-1][n-1].down;
   p->next=NULL;
   p->below=NULL;
   C.start=p;
@@ -328,19 +330,19 @@ big_integer_number operator*(big_integer_number A,big_integer_number B)
   unsigned x=m+n-2,k=0;
   while(x!=0)
   {
-    int SUMA=0;
+    int SUM=0;
     for(i=0;i<m;i++)
       for(j=0;j<n;j++)
       {
         if(i+j==x)
-        SUMA+=M[i][j].superior;
+        SUM+=M[i][j].up;
         if(i+j+1==x)
-        SUMA+=M[i][j].inferior;
+        SUM+=M[i][j].down;
       }
-    SUMA+=k;
-    k=SUMA/10;
+    SUM+=k;
+    k=SUM/10;
     nod *p=new nod;
-    p->val=SUMA%10;
+    p->val=SUM%10;
 
       C.start->below=p;
       p->next=C.start;
@@ -348,7 +350,7 @@ big_integer_number operator*(big_integer_number A,big_integer_number B)
       C.start=p;
     x--;
   }
-  k+=M[0][0].superior;
+  k+=M[0][0].up;
   while(k)
   {
     p=new nod;
@@ -403,11 +405,11 @@ big_integer_number operator/(big_integer_number A,big_integer_number B)
 }
 big_integer_number operator%(big_integer_number A,big_integer_number B)
 {
-  big_integer_number CAT,REST;
+  big_integer_number DIV,MOD;
   CAT=A/B;
   B=B*CAT;
-  REST=A-B;
-  return REST;
+  MOD=A-B;
+  return MOD;
 }
 big_integer_number GCD(big_integer_number A,big_integer_number B)
 {
